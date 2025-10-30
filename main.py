@@ -133,8 +133,9 @@ def montar_mensagem_alerta(df):
     for minuto in [30, 20, 10]:
         grupo = df_filtrado[df_filtrado['grupo_alerta'] == minuto]
         if not grupo.empty:
-            
-            mensagens.append(f"⚠️ Atenção!!!")
+
+            mensagens.append("")
+            mensagens.append(f"⚠️ Atenção, LTs próximas do CPT! ⚠️")
             
             mensagens.append("") 
             mensagens.append("") 
