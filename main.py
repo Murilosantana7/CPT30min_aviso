@@ -93,6 +93,7 @@ def obter_dados_expedicao(cliente, spreadsheet_id):
     df = pd.DataFrame(dados[1:], columns=dados[0])
     df.columns = df.columns.str.strip()
 
+    # Esta parte ainda usa a lógica original do script que você colou
     for col in ['Doca', 'LH Trip Number', 'Station Name', 'CPT']:
         if col not in df.columns:
             return None, f"⚠️ Coluna '{col}' não encontrada."
@@ -135,7 +136,6 @@ def montar_mensagem_alerta(df):
             
             mensagens.append(f"⚠️ Atenção!!!")
             
-            # ✨ ALTERAÇÃO: Adicionando DUAS linhas em branco para o espaço
             mensagens.append("") 
             mensagens.append("") 
             
@@ -146,13 +146,11 @@ def montar_mensagem_alerta(df):
                 cpt_str = row['CPT'].strftime('%H:%M') 
                 minutos_reais = int(row['minutos_restantes'])
                 
-                # ✨ ALTERAÇÃO: Formato em 4 linhas
                 mensagens.append(f"🚛 {lt}")
                 mensagens.append(f"{doca}")
                 mensagens.append(f"Destino: {destino}")
                 mensagens.append(f"CPT: {cpt_str} (faltam {minutos_reais} min)")
                 
-                # Linha em branco antes da próxima LT
                 mensagens.append("") 
 
     if mensagens and mensagens[-1] == "":
@@ -187,7 +185,6 @@ def enviar_webhook_com_mencao_oficial(mensagem_texto: str, webhook_url: str, use
         print("❌ WEBHOOK_URL não definida.")
         return
 
-    # A mensagem final é apenas o corpo do alerta
     mensagem_final = f"{mensagem_texto}"
 
     payload = {
@@ -198,13 +195,10 @@ def enviar_webhook_com_mencao_oficial(mensagem_texto: str, webhook_url: str, use
         }
     }
 
-    # ✨ ALTERAÇÃO: O bloco 'mentioned_list' foi REATIVADO.
-    # Isso GARANTE o "ping", e fará o Seatalk adicionar os nomes no topo.
     if user_ids:
         user_ids_validos = [uid for uid in user_ids if uid and uid.strip()]
         if user_ids_validos:
             
-            # Linha REATIVADA:
             payload["text"]["mentioned_list"] = user_ids_validos
             
             print(f"✅ Enviando menção para: {user_ids_validos}")
@@ -245,9 +239,11 @@ def main():
         print(f"🕒 Turno atual: {turno_atual}")
         print(f"👥 IDs configurados para este turno: {ids_para_marcar}")
 
-        enviar_imagem(webhook_url)
-        # A função agora está configurada para MARCAR e formatar o corpo
+        # ✨ ALTERADO: A mensagem de texto agora é enviada PRIMEIRO.
         enviar_webhook_com_mencao_oficial(mensagem, webhook_url, user_ids=ids_para_marcar)
+        
+        # ✨ ALTERADO: A imagem agora é enviada DEPOIS.
+        enviar_imagem(webhook_url)
     else:
         print("✅ Nenhuma LT nos critérios de alerta. Nada enviado.")
 
