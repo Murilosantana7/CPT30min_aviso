@@ -18,6 +18,7 @@ CAMINHO_IMAGEM = "alerta.gif"
 TURNO_PARA_IDS = {
     "Turno 1": [
         "1461929762",  # Iromar Souza
+        "1449480651",  # Ana Julia Lopes
         "9465967606",  # Fidel Lúcio
         "1268695707"   # Claudio Olivatto
     ],
