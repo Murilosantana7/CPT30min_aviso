@@ -28,6 +28,7 @@ TURNO_PARA_IDS = {
     ],
     "Turno 3": [
         "9289770437",  # Fernando Aparecido da Costa
+        "1436962469",  # Jose Guilherme Paco
         "9474534910",  # Kaio Baldo
         "1499919880"   # Sandor Nemes
     ]
