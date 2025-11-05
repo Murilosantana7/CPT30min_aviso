@@ -24,6 +24,7 @@ TURNO_PARA_IDS = {
     ],
     "Turno 2": [
         "9356934188",  # Fabrício Damasceno
+        "1160266193",  # Joao Pedro Araujo Silva
         "1386559133",  # Murilo Santana
         "1298055860"   # Matheus Damas
     ],
