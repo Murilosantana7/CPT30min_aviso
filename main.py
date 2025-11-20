@@ -13,6 +13,7 @@ SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 NOME_ABA = 'Base Pending Tratado'
 INTERVALO = 'A:F'
 CAMINHO_IMAGEM = "alerta.gif"
+FUSO_HORARIO_SP = timezone('America/Sao_Paulo')
 
 # 👥 DICIONÁRIO DE PESSOAS POR TURNO (COM IDS REAIS!)
 TURNO_PARA_IDS = {
@@ -36,10 +37,31 @@ TURNO_PARA_IDS = {
     ]
 }
 
+# 🗓️ CONFIGURAÇÃO DE FOLGAS (0=Segunda ... 6=Domingo)
+# 0=Seg, 1=Ter, 2=Qua, 3=Qui, 4=Sex, 5=Sab, 6=Dom
+DIAS_DE_FOLGA = {
+    # --- Turno 1 ---
+    "1461929762": [6, 0],    # Iromar Souza (Dom)
+    "1449480651": [5, 6], # Ana Julia Lopes (Sab, Dom)
+    "9465967606": [5, 6], # Fidel Lúcio (Sab, Dom)
+    "1268695707": [6],    # Claudio Olivatto (Dom)
 
-def identificar_turno_atual():
+    # --- Turno 2 ---
+    "9356934188": [5, 6], # Fabrício Damasceno (Sab, Dom)
+    "1160266193": [6],     # Joao Pedro Araujo (Dom)
+    "1386559133": [6, 0], # Murilo Santana (Dom, Seg)
+    "1298055860": [6],    # Matheus Damas (Dom)
+
+    # --- Turno 3 ---
+    "9289770437": [6, 0],     # Fernando Aparecido (Dom, Seg)
+    "1436962469": [6, 0],     # Jose Guilherme Paco (Dom, Seg)
+    "9474534910": [6, 0], # Kaio Baldo (Dom, Seg)
+    "1499919880": []      # Sandor Nemes (Sem folga fixa)
+}
+
+def identificar_turno_atual(agora):
     """Identifica o turno atual baseado na hora de São Paulo."""
-    agora = datetime.now(timezone('America/Sao_Paulo'))
+    # A variável 'agora' já vem com timezone do main
     hora = agora.hour
 
     if 6 <= hora < 14:
@@ -49,6 +71,23 @@ def identificar_turno_atual():
     else:
         return "Turno 3"
 
+def filtrar_quem_esta_de_folga(ids_do_turno, agora):
+    """Remove da lista de IDs quem tem folga no dia da semana atual."""
+    dia_semana_hoje = agora.weekday() # 0=Segunda ... 6=Domingo
+    ids_validos = []
+    
+    nomes_dias = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"]
+    print(f"📅 Hoje é {nomes_dias[dia_semana_hoje]}. Verificando escalas...")
+
+    for uid in ids_do_turno:
+        dias_off_da_pessoa = DIAS_DE_FOLGA.get(uid, [])
+        
+        if dia_semana_hoje in dias_off_da_pessoa:
+            print(f"🏖️ ID {uid} está de folga hoje. Não será marcado.")
+        else:
+            ids_validos.append(uid)
+            
+    return ids_validos
 
 def autenticar_google():
     creds_json_str = os.environ.get('GOOGLE_SERVICE_ACCOUNT_JSON')
@@ -65,7 +104,6 @@ def autenticar_google():
         print(f"❌ Erro ao autenticar: {e}")
         return None
 
-
 def formatar_doca(doca):
     doca = doca.strip()
     if not doca or doca == '-':
@@ -77,7 +115,6 @@ def formatar_doca(doca):
         return f"Doca {doca}"
     else:
         return doca
-
 
 def obter_dados_expedicao(cliente, spreadsheet_id):
     if not cliente:
@@ -96,26 +133,28 @@ def obter_dados_expedicao(cliente, spreadsheet_id):
     df = pd.DataFrame(dados[1:], columns=dados[0])
     df.columns = df.columns.str.strip()
 
-    # Esta parte ainda usa a lógica original do script que você colou
     for col in ['Doca', 'LH Trip Number', 'Station Name', 'CPT']:
         if col not in df.columns:
             return None, f"⚠️ Coluna '{col}' não encontrada."
 
     df = df[df['LH Trip Number'].str.strip() != '']
+    # Converte CPT inicialmente, mas a lógica real de tempo está no montar_mensagem
     df['CPT'] = pd.to_datetime(df['CPT'], dayfirst=True, errors='coerce')
     df = df.dropna(subset=['CPT'])
 
     return df, None
 
-
 def montar_mensagem_alerta(df):
-    tz = timezone('America/Sao_Paulo')
-    agora = datetime.now(tz)
+    agora = datetime.now(FUSO_HORARIO_SP)
 
     df = df.copy()
+    # Garante datetime e trata timezone
     df['CPT'] = pd.to_datetime(df['CPT'], dayfirst=True, errors='coerce')
     df = df.dropna(subset=['CPT'])
-    df['CPT'] = df['CPT'].dt.tz_localize(tz, ambiguous='NaT', nonexistent='NaT')
+    
+    # Se o CPT da planilha não tiver fuso, localiza como SP. Se tiver, converte.
+    df['CPT'] = df['CPT'].dt.tz_localize(FUSO_HORARIO_SP, ambiguous='NaT', nonexistent='NaT')
+    
     df = df.dropna(subset=['CPT'])
     df['minutos_restantes'] = ((df['CPT'] - agora).dt.total_seconds() // 60).astype(int)
     df = df[df['minutos_restantes'] >= 0]
@@ -136,10 +175,8 @@ def montar_mensagem_alerta(df):
     for minuto in [30, 20, 10]:
         grupo = df_filtrado[df_filtrado['grupo_alerta'] == minuto]
         if not grupo.empty:
-
             mensagens.append("")
             mensagens.append(f"⚠️ Atenção, LTs próximas do CPT! ⚠️")
-            
             mensagens.append("") 
             mensagens.append("") 
             
@@ -154,14 +191,12 @@ def montar_mensagem_alerta(df):
                 mensagens.append(f"{doca}")
                 mensagens.append(f"Destino: {destino}")
                 mensagens.append(f"CPT: {cpt_str} (faltam {minutos_reais} min)")
-                
                 mensagens.append("") 
 
     if mensagens and mensagens[-1] == "":
         mensagens.pop()
 
     return "\n".join(mensagens)
-
 
 def enviar_imagem(webhook_url: str, caminho_imagem: str = CAMINHO_IMAGEM):
     if not webhook_url:
@@ -183,28 +218,21 @@ def enviar_imagem(webhook_url: str, caminho_imagem: str = CAMINHO_IMAGEM):
         print(f"❌ Erro ao enviar imagem: {e}")
         return False
 
-
 def enviar_webhook_com_mencao_oficial(mensagem_texto: str, webhook_url: str, user_ids: list = None):
     if not webhook_url:
         print("❌ WEBHOOK_URL não definida.")
         return
 
     mensagem_final = f"{mensagem_texto}"
-
     payload = {
         "tag": "text",
-        "text": {
-            "format": 1,
-            "content": mensagem_final
-        }
+        "text": { "format": 1, "content": mensagem_final }
     }
 
     if user_ids:
         user_ids_validos = [uid for uid in user_ids if uid and uid.strip()]
         if user_ids_validos:
-            
             payload["text"]["mentioned_list"] = user_ids_validos
-            
             print(f"✅ Enviando menção para: {user_ids_validos}")
         else:
             print("⚠️ Nenhum ID válido para marcar.")
@@ -215,7 +243,6 @@ def enviar_webhook_com_mencao_oficial(mensagem_texto: str, webhook_url: str, use
         print("✅ Mensagem com menção OFICIAL enviada com sucesso.")
     except Exception as e:
         print(f"❌ Falha ao enviar mensagem: {e}")
-
 
 def main():
     webhook_url = os.environ.get('SEATALK_WEBHOOK_URL')
@@ -229,6 +256,9 @@ def main():
     if not cliente:
         return
 
+    # Define 'agora' UMA VEZ aqui para usar no turno e no filtro de folga
+    agora = datetime.now(FUSO_HORARIO_SP)
+
     df, erro = obter_dados_expedicao(cliente, spreadsheet_id)
     if erro:
         print(erro)
@@ -237,20 +267,20 @@ def main():
     mensagem = montar_mensagem_alerta(df)
 
     if mensagem:
-        turno_atual = identificar_turno_atual()
-        ids_para_marcar = TURNO_PARA_IDS.get(turno_atual, [])
+        turno_atual = identificar_turno_atual(agora) # Passa 'agora'
+        ids_brutos = TURNO_PARA_IDS.get(turno_atual, [])
+
+        # --- APLICA FILTRO DE FOLGAS ---
+        ids_para_marcar = filtrar_quem_esta_de_folga(ids_brutos, agora)
+        # -------------------------------
 
         print(f"🕒 Turno atual: {turno_atual}")
-        print(f"👥 IDs configurados para este turno: {ids_para_marcar}")
+        print(f"👥 IDs originais: {len(ids_brutos)} | IDs após filtro: {len(ids_para_marcar)}")
 
-        # ✨ ALTERADO: A mensagem de texto agora é enviada PRIMEIRO.
         enviar_webhook_com_mencao_oficial(mensagem, webhook_url, user_ids=ids_para_marcar)
-        
-        # ✨ ALTERADO: A imagem agora é enviada DEPOIS.
         enviar_imagem(webhook_url)
     else:
         print("✅ Nenhuma LT nos critérios de alerta. Nada enviado.")
-
 
 if __name__ == "__main__":
     main()
