@@ -21,7 +21,7 @@ TURNO_PARA_IDS = {
         "1461929762",  # Iromar Souza
         "1449480651",  # Ana Julia Lopes
         "9465967606",  # Fidel Lúcio
-        "1268695707"   # Claudio Olivatto
+        "1268695707",   # Claudio Olivatto
     ],
     "Turno 2": [
         "9356934188",  # Fabrício Damasceno
@@ -29,14 +29,14 @@ TURNO_PARA_IDS = {
         "1386559133",  # Murilo Santana
         "1298055860",  # Matheus Damas
         "1432898616",  # Leonardo Caus
-        "1445507591"   # Amanda Silva
+        "1445507591",   # Amanda Silva
         
     ],
     "Turno 3": [
         "9289770437",  # Fernando Aparecido da Costa
         "1436962469",  # Jose Guilherme Paco
         "9474534910",  # Kaio Baldo
-        "1499919880"   # Sandor Nemes
+        "1499919880",   # Sandor Nemes
     ]
 }
 
@@ -61,7 +61,7 @@ DIAS_DE_FOLGA = {
     "9289770437": [6, 0],      # Fernando Aparecido (Dom, Seg)
     "1436962469": [6, 0],      # Jose Guilherme Paco (Dom, Seg)
     "9474534910": [6, 0],      # Kaio Baldo (Dom, Seg)
-    "1499919880": [6]          # Sandor Nemes (Dom)
+    "1499919880": [6],          # Sandor Nemes (Dom)
 }
 
 def identificar_turno_atual(agora):
