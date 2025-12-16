@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 from pytz import timezone
 import os
 import json
+import binascii  # Importante para tratamento de erros de base64
 
 # --- CONSTANTES ---
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
@@ -102,18 +103,43 @@ def filtrar_quem_esta_de_folga(ids_do_turno, agora, turno_atual):
     return ids_validos
 
 def autenticar_google():
-    creds_json_str = os.environ.get('GOOGLE_SERVICE_ACCOUNT_JSON')
-    if not creds_json_str:
+    """
+    Tenta autenticar lendo a variável de ambiente.
+    Suporta JSON puro E JSON codificado em Base64 (útil para GitHub Secrets).
+    """
+    creds_var = os.environ.get('GOOGLE_SERVICE_ACCOUNT_JSON')
+    
+    if not creds_var:
         print("❌ Erro: Variável de ambiente 'GOOGLE_SERVICE_ACCOUNT_JSON' não definida.")
         return None
 
+    creds_dict = None
+
+    # 1. Tenta carregar como JSON direto
     try:
-        creds_dict = json.loads(creds_json_str)
+        creds_dict = json.loads(creds_var)
+        print("✅ Credenciais carregadas via JSON puro.")
+    except json.JSONDecodeError:
+        # 2. Se falhar, tenta decodificar Base64
+        try:
+            print("⚠️ JSON inválido, tentando decodificar Base64...")
+            decoded_bytes = base64.b64decode(creds_var, validate=True)
+            decoded_str = decoded_bytes.decode("utf-8")
+            creds_dict = json.loads(decoded_str)
+            print("✅ Credenciais decodificadas de Base64 com sucesso.")
+        except (binascii.Error, json.JSONDecodeError, UnicodeDecodeError) as e:
+            print(f"❌ Erro Crítico: Falha ao ler credenciais (Nem JSON puro, nem Base64 válido). Detalhe: {e}")
+            return None
+
+    if not creds_dict:
+        return None
+
+    try:
         cliente = gspread.service_account_from_dict(creds_dict, scopes=SCOPES)
-        print("✅ Cliente autenticado.")
+        print("✅ Cliente autenticado no Google.")
         return cliente
     except Exception as e:
-        print(f"❌ Erro ao autenticar: {e}")
+        print(f"❌ Erro ao conectar com gspread: {e}")
         return None
 
 def formatar_doca(doca):
