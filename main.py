@@ -54,7 +54,7 @@ DIAS_DE_FOLGA = {
     # --- Turno 2 ---
     "9356934188": [5, 6],   # Fabrício Damasceno (Sab, Dom)
     "1160266193": [6],      # Joao Pedro Araujo (Dom)
-    "1525204706", [6, 0],   # Alyson Caetano(Dom, Seg)
+    "1525204706": [6, 0],   # Alyson Caetano(Dom, Seg)
     "1386559133": [6, 0],   # Murilo Santana (Dom, Seg)
     "1298055860": [6],      # Matheus Damas (Dom)
     "1432898616": [0, 1, 2, 3, 4, 5], # Leonardo Caus (Folga Seg a Sab)
