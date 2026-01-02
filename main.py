@@ -25,7 +25,7 @@ TURNO_PARA_IDS = {
         "1268695707",   # Claudio Olivatto
     ],
     "Turno 2": [
-        "9356934188",  # Fabrício Damasceno
+        "",  # Fabrício Damasceno
         "1525204706",  # Alyson Caetano
         "1160266193",  # Joao Pedro Araujo Silva
         "1386559133",  # Murilo Santana
@@ -52,7 +52,7 @@ DIAS_DE_FOLGA = {
     "1268695707": [6],    # Claudio Olivatto (Dom)
 
     # --- Turno 2 ---
-    "9356934188": [5, 6],   # Fabrício Damasceno (Sab, Dom)
+    "": [5, 6],   # Fabrício Damasceno (Sab, Dom)
     "1160266193": [6],      # Joao Pedro Araujo (Dom)
     "1525204706": [6, 0],   # Alyson Caetano(Dom, Seg)
     "1386559133": [6, 0],   # Murilo Santana (Dom, Seg)
