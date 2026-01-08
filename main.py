@@ -22,7 +22,7 @@ TURNO_PARA_IDS = {
         "1461929762",  # Iromar Souza
         "1449480651",  # Ana Julia Lopes
         "9465967606",  # Fidel Lúcio
-        "1268695707",   # Claudio Olivatto
+        "1521007245",   # Claudio Olivatto alterado para Tereza durante as férias do Cláudio
     ],
     "Turno 2": [
         "",  # Fabrício Damasceno
@@ -49,7 +49,7 @@ DIAS_DE_FOLGA = {
     "1461929762": [5, 6],    # Iromar Souza (Dom)
     "1449480651": [5, 6], # Ana Julia Lopes (Sab, Dom)
     "9465967606": [5, 6], # Fidel Lúcio (Sab, Dom)
-    "1268695707": [6],    # Claudio Olivatto (Dom)
+    "1521007245": [6],    # Claudio Olivatto (Dom)
 
     # --- Turno 2 ---
     "": [5, 6],   # Fabrício Damasceno (Sab, Dom)
