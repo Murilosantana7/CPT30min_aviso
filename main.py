@@ -22,7 +22,7 @@ TURNO_PARA_IDS = {
         "1461929762",  # Iromar Souza
         "1449480651",  # Ana Julia Lopes
         "9465967606",  # Fidel Lúcio
-        "1521007245",   # Claudio Olivatto alterado para Tereza durante as férias do Cláudio
+        "1521007245",  # Claudio Olivatto alterado para Tereza durante as férias do Cláudio
     ],
     "Turno 2": [
         "",  # Fabrício Damasceno
@@ -30,14 +30,14 @@ TURNO_PARA_IDS = {
         "1386559133",  # Murilo Santana
         "1298055860",  # Matheus Damas
         "1432898616",  # Leonardo Caus
-        "1445507591",   # Amanda Silva
+        "1445507591",  # Amanda Silva
         
     ],
     "Turno 3": [
         "1277449046",  # Felipe B Alves
         "1436962469",  # Jose Guilherme Paco
         "9474534910",  # Kaio Baldo
-        "1499919880",   # Sandor Nemes
+        "1499919880",  # Sandor Nemes
     ]
 }
 
@@ -46,9 +46,9 @@ TURNO_PARA_IDS = {
 DIAS_DE_FOLGA = {
     # --- Turno 1 ---
     "1461929762": [5, 6],    # Iromar Souza (Dom)
-    "1449480651": [5, 6], # Ana Julia Lopes (Sab, Dom)
-    "9465967606": [5, 6], # Fidel Lúcio (Sab, Dom)
-    "1521007245": [6],    # Claudio Olivatto (Dom)
+    "1449480651": [5, 6],    # Ana Julia Lopes (Sab, Dom)
+    "9465967606": [5, 6],    # Fidel Lúcio (Sab, Dom)
+    "1521007245": [6],       # Claudio Olivatto (Dom)
 
     # --- Turno 2 ---
     "1525204706": [6, 0],   # Alyson Caetano(Dom, Seg)
