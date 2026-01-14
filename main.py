@@ -27,7 +27,6 @@ TURNO_PARA_IDS = {
     "Turno 2": [
         "",  # Fabrício Damasceno
         "1525204706",  # Alyson Caetano
-        "1160266193",  # Joao Pedro Araujo Silva
         "1386559133",  # Murilo Santana
         "1298055860",  # Matheus Damas
         "1432898616",  # Leonardo Caus
@@ -35,7 +34,7 @@ TURNO_PARA_IDS = {
         
     ],
     "Turno 3": [
-        "9289770437",  # Fernando Aparecido da Costa
+        "1277449046",  # Felipe B Alves
         "1436962469",  # Jose Guilherme Paco
         "9474534910",  # Kaio Baldo
         "1499919880",   # Sandor Nemes
@@ -52,19 +51,17 @@ DIAS_DE_FOLGA = {
     "1521007245": [6],    # Claudio Olivatto (Dom)
 
     # --- Turno 2 ---
-    "": [5, 6],   # Fabrício Damasceno (Sab, Dom)
-    "1160266193": [6],      # Joao Pedro Araujo (Dom)
     "1525204706": [6, 0],   # Alyson Caetano(Dom, Seg)
     "1386559133": [6, 0],   # Murilo Santana (Dom, Seg)
     "1298055860": [6],      # Matheus Damas (Dom)
     "1432898616": [0, 1, 2, 3, 4, 5], # Leonardo Caus (Folga Seg a Sab)
-    "1445507591": [6],
+    "1445507591": [6],      # Amanda Silva
 
     # --- Turno 3 ---
-    "9289770437": [6, 0],      # Fernando Aparecido (Dom, Seg)
+    "1277449046": [6, 0],      # Felipe B Alves (Dom, Seg)
     "1436962469": [6, 0],      # Jose Guilherme Paco (Dom, Seg)
     "9474534910": [6, 0],      # Kaio Baldo (Dom, Seg)
-    "1499919880": [6],          # Sandor Nemes (Dom)
+    "1499919880": [6],         # Sandor Nemes (Dom)
 }
 
 def identificar_turno_atual(agora):
