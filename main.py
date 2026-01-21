@@ -26,7 +26,7 @@ TURNO_PARA_IDS = {
     ],
     "Turno 2": [
         "",  # Fabrício Damasceno
-        "1525204706",  # Alyson Caetano
+        "",  # Alyson Caetano
         "9474534910",  # Murilo Santana Kaio cobrindo T2
         "1298055860",  # Matheus Damas
         "1432898616",  # Leonardo Caus
