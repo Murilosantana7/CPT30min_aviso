@@ -54,7 +54,7 @@ DIAS_DE_FOLGA = {
     "1525204706": [6, 0],   # Alyson Caetano(Dom, Seg)
     "9474534910": [6, 0],   # Murilo Santana (Dom, Seg)
     "1298055860": [6],      # Matheus Damas (Dom)
-    "1432898616": [0, 1, 2, 3, 4, 5], # Leonardo Caus (Folga Seg a Sab)
+    "1432898616": [4, 5], # Leonardo Caus (Folga Seg a Sab)
     "1445507591": [6],      # Amanda Silva
 
     # --- Turno 3 ---
