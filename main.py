@@ -30,7 +30,7 @@ TURNO_PARA_IDS = {
         "9474534910",  # Murilo Santana Kaio cobrindo T2
         "1298055860",  # Matheus Damas
         "1432898616",  # Leonardo Caus
-        "1445507591",  # Amanda Silva
+        "",  # Amanda Silva
         
     ],
     "Turno 3": [
