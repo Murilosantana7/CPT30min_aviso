@@ -25,12 +25,9 @@ TURNO_PARA_IDS = {
         "1268695707",  # Claudio Olivatto
     ],
     "Turno 2": [
-        "",  # Fabrício Damasceno
-        "",  # Alyson Caetano
         "9474534910",  # Murilo Santana Kaio cobrindo T2
         "1298055860",  # Matheus Damas
         "1432898616",  # Leonardo Caus
-        "",  # Amanda Silva
         
     ],
     "Turno 3": [
@@ -48,14 +45,12 @@ DIAS_DE_FOLGA = {
     "1461929762": [5, 6],    # Iromar Souza (Dom)
     "1449480651": [5, 6],    # Ana Julia Lopes (Sab, Dom)
     "9465967606": [5, 6],    # Fidel Lúcio (Sab, Dom)
-    "1521007245": [6],       # Claudio Olivatto (Dom)
+    "1268695707": [6],       # Claudio Olivatto (Dom)
 
     # --- Turno 2 ---
-    "1525204706": [6, 0],   # Alyson Caetano(Dom, Seg)
     "9474534910": [6, 0],   # Murilo Santana (Dom, Seg)
     "1298055860": [6],      # Matheus Damas (Dom)
     "1432898616": [4, 5], # Leonardo Caus (Folga Seg a Sab)
-    "1445507591": [6],      # Amanda Silva
 
     # --- Turno 3 ---
     "1277449046": [6, 0],      # Felipe B Alves (Dom, Seg)
