@@ -22,7 +22,7 @@ TURNO_PARA_IDS = {
         "1461929762",  # Iromar Souza
         "1449480651",  # Ana Julia Lopes
        # "9465967606",  # Fidel Lúcio Férias
-        "1521007245",  # Claudio Olivatto alterado para Tereza durante as férias do Cláudio
+        "1268695707",  # Claudio Olivatto
     ],
     "Turno 2": [
         "",  # Fabrício Damasceno
